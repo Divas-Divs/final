@@ -1,0 +1,12 @@
+:root {
+    --background-color: #393748;
+    --primary-color: #D9D9D9; /* all text/dividers */
+    --secondary-color: #676481; /* goes under elements i think*/
+    --tertiary-color: #999999; /* accents and nav */
+
+}
+
+.titleImgContainer {
+    width: 100%;
+    height: auto;
+}
