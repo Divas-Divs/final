@@ -7,9 +7,9 @@
 }
 
 .titleImgContainer {
-    width: 390%;
-    height: 270%;
-    height: auto;
+    width: 350px;
+    height: 250px;
+    object-fit: cover;
 }
 
 #navContainer {
