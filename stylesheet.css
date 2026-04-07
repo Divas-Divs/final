@@ -31,3 +31,11 @@
     display: flex;
     gap: 100px;
 }
+
+.main_header{
+  background: #999999;
+  color: #393748;
+  display: flex;
+  justify-content: space-between;
+  padding: 40px;
+}
