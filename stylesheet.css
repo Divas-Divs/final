@@ -74,10 +74,18 @@ section + div img {
     gap: 100px;
 }
 
-.main_header{
-  background: #999999;
-  color: #393748;
-  display: flex;
-  justify-content: space-between;
-  padding: 40px;
+.science_section {
+    display: flex;
+    gap: 50px
+}
+
+.scienceImg{
+    width: 855px;
+    height: 370px;
+}
+
+.science_text{
+    display: flex;
+    flex-direction: column;
+    width: 400px;
 }
