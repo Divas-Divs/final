@@ -1,34 +1,68 @@
-import Nav from './Nav';
+import { useEffect, useState } from "react";
+import Nav from "./Nav";
+import { getFavorites } from "../supabase/favorites";
+import { getProfile, updateProfile } from "../supabase/profile";
 
-function Collection() {
-  return (
-    <div>
-      <Nav />
-      <section id="profileSection">
-        <div id="profPicContainer">
-          <img src="/media/profileplaceholder.jpg" alt="Profile" />
-        </div>
-        <div id="profBio">
-          <p>Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.</p>
-        </div>
-      </section>
+function Collection({ user }) {
+    const [favorites, setFavorites] = useState([]);
 
-      <div>
-        <img src="/media/imgplaceholder.jpg" alt="Collection 1" />
-        <img src="/media/imgplaceholder.jpg" alt="Collection 2" />
-        <img src="/media/imgplaceholder.jpg" alt="Collection 3" />
-        <img src="/media/imgplaceholder.jpg" alt="Collection 4" />
-        <img src="/media/imgplaceholder.jpg" alt="Collection 5" />
-        <img src="/media/imgplaceholder.jpg" alt="Collection 6" />
-        <img src="/media/imgplaceholder.jpg" alt="Collection 7" />
-        <img src="/media/imgplaceholder.jpg" alt="Collection 8" />
-        <img src="/media/imgplaceholder.jpg" alt="Collection 9" />
-        <img src="/media/imgplaceholder.jpg" alt="Collection 10" />
-        <img src="/media/imgplaceholder.jpg" alt="Collection 11" />
-        <img src="/media/imgplaceholder.jpg" alt="Collection 12" />
-      </div>
-    </div>
-  );
+    const [profile, setProfile] = useState(null);
+
+    const [bio, setBio] = useState("");
+
+    useEffect(() => {
+        if (!user) return;
+
+        getFavorites().then(setFavorites);
+
+        getProfile(user.id).then((data) => {
+            setProfile(data);
+            setBio(data?.bio || "");
+        });
+    }, [user]);
+
+    if (!user) {
+        return (
+            <div>
+                <Nav />
+                <p>Please log in to view your collection.</p>
+            </div>
+        );
+    }
+
+    async function saveBio() {
+        await updateProfile(user.id, { bio });
+        alert("Updated!");
+    }
+
+    return (
+        <div>
+            <Nav />
+            <section id="profileSection">
+                <div id="profPicContainer">
+                    <img src="/media/profileplaceholder.jpg" alt="Profile" />
+                </div>
+                <div id="profBio">
+                    <textarea
+                        value={bio}
+                        onChange={(e) => setBio(e.target.value)}
+                    />
+                    <button onClick={saveBio}>Save Bio</button>
+                </div>
+            </section>
+
+            <div>
+                {favorites.map((item) => (
+                    <img
+                        key={item.id}
+                        src={item.image_url}
+                        alt={item.title}
+                        title={`${item.title} (${item.source})`}
+                    />
+                ))}
+            </div>
+        </div>
+    );
 }
 
 export default Collection;
