@@ -1,16 +1,49 @@
-import Nav from './Nav';
+import { useEffect, useState } from "react";
+import Nav from "./Nav";
+import { getRandomScienceExhibit } from "../api/scienceAPI";
 
 function Science() {
+  const [exhibit, setExhibit] = useState(null);
+
+  useEffect(() => {
+    async function load() {
+      try {
+        const data = await getRandomScienceExhibit();
+        setExhibit(data);
+      } catch (err) {
+        console.error("Science load error:", err);
+      }
+    }
+
+    load();
+  }, []);
+
   return (
     <div>
       <Nav />
       <hr />
+
       <h1>Science</h1>
+
       <div className="science_section">
-        <img className="scienceImg" src="/media/imgplaceholder.jpg" alt="science" />
+        <img
+          className="scienceImg"
+          src={
+            exhibit?.image ||
+            "/media/imgplaceholder.jpg"
+          }
+          alt="science"
+        />
+
         <div className="science_text">
-          <h1>Title</h1>
-          <p>Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitaepellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos. Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.</p>
+          <h1>
+            {exhibit?.title || "Loading..."}
+          </h1>
+
+          <p>
+            {exhibit?.description ||
+              "Loading exhibit description..."}
+          </p>
         </div>
       </div>
     </div>
