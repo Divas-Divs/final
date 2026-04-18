@@ -35,9 +35,11 @@ function Art({ user }) {
 
     return (
         <div>
-            <Nav />
+            <div className="page-header">
+                <h1>Art</h1>
+                <Nav />
+            </div>
             <hr />
-            <h1>Art</h1>
             {artworks.length === 0 ? (
                 <div>
                     <p>Loading artworks...</p>

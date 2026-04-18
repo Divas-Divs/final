@@ -24,7 +24,10 @@ function Collection({ user }) {
     if (!user) {
         return (
             <div>
-                <Nav />
+                <div className="page-header">
+                    <h1>Collection</h1>
+                    <Nav />
+                </div>
                 <p>Please log in to view your collection.</p>
             </div>
         );
@@ -37,7 +40,10 @@ function Collection({ user }) {
 
     return (
         <div>
-            <Nav />
+            <div className="page-header">
+                <h1>Collection</h1>
+                <Nav />
+            </div>
             <section id="profileSection">
                 <div id="profPicContainer">
                     <img src="/media/profileplaceholder.jpg" alt="Profile" />

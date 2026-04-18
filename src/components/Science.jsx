@@ -35,10 +35,11 @@ function Science({ user }) {
 
     return (
         <div>
-            <Nav />
+            <div className="page-header">
+                <h1>Science</h1>
+                <Nav />
+            </div>
             <hr />
-
-            <h1>Science</h1>
 
             <div className="science_section">
                 <img
