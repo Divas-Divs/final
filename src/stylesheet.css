@@ -40,6 +40,7 @@ body {
     display: flex;
     flex-direction: column;
     flex: 1;
+    background-color: var(--background-color);
 }
 
 p {
@@ -121,8 +122,9 @@ nav {
 }
 
 .titleImgContainer {
-    width: 350px;
-    height: 250px;
+    width: 100%;
+    height: auto;
+    max-width: 350px;
     object-fit: cover;
 }
 
@@ -158,6 +160,7 @@ nav {
 }
 
 section + div {
+    background-color: var(--background-color);
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 20px;
@@ -171,10 +174,16 @@ section + div img {
     object-fit: cover;
 }
 
+
+
 .art_title {
-    font-size: 40;
-    margin-left: 165px;
-    margin-top: 0;
+    font-size: 24px;
+    margin: 5px 0;
+    text-align: center;
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .art_title_container {
@@ -183,8 +192,18 @@ section + div img {
 }
 
 .artwork_container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+    padding: 20px 40px;
+}
+
+.art_card {
     display: flex;
-    gap: 100px;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 20px;
 }
 
 .science_section {

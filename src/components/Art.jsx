@@ -47,70 +47,70 @@ function Art({ user }) {
             ) : (
                 <>
                     <div className="artwork_container">
-                        {artworks.slice(0, 3).map((artwork, index) => (
-                            <div className="art_card" key={artwork?.id || index}>
-                                <img
-                                    className="titleImgContainer"
-                                    src={artwork?.image || "/media/imgplaceholder.jpg"}
-                                    alt={artwork?.title || `Art ${index + 1}`}
-                                />
-
-                                <button onClick={() => handleFavorite(artwork)}>
-                                    ❤︎
-                                </button>
-                            </div>
-                        ))}
-                    </div>
-                    <div className="art_title_container">
-                        {artworks.slice(0, 3).map((artwork, index) => (
-                            <h2 key={artwork?.id || index} className="art_title">
-                                {artwork?.title || "Title"}
-                            </h2>
-                        ))}
-                    </div>
-                    <div className="artwork_container">
-                        {artworks.slice(3, 6).map((artwork, index) => (
-                            <div className="art_card" key={artwork?.id || index + 3}>
-                                <img
-                                    className="titleImgContainer"
-                                    src={artwork?.image || "/media/imgplaceholder.jpg"}
-                                    alt={artwork?.title || `Art ${index + 4}`}
-                                />
-
-                                <button onClick={() => handleFavorite(artwork)}>
-                                    ❤︎
-                                </button>
-                            </div>
-                        ))}
-                    </div>
-                    <div className="art_title_container">
-                        {artworks.slice(3, 6).map((artwork, index) => (
-                            <h2 key={artwork?.id || index + 3} className="art_title">
-                                {artwork?.title || "Title"}
-                            </h2>
-                        ))}
+                        {artworks.slice(0, 3).map((artwork, index) => {
+                            const displayTitle = artwork?.title && artwork.title.length > 27 
+                                ? artwork.title.substring(0, 27) + '...' 
+                                : artwork?.title || "Title";
+                            return (
+                                <div className="art_card" key={artwork?.id || index}>
+                                    <img
+                                        className="titleImgContainer"
+                                        src={artwork?.image || "/media/imgplaceholder.jpg"}
+                                        alt={artwork?.title || `Art ${index + 1}`}
+                                    />
+                                    <p className="art_title" title={artwork?.title || "Title"}>
+                                        {displayTitle}
+                                    </p>
+                                    <button onClick={() => handleFavorite(artwork)}>
+                                        ❤︎
+                                    </button>
+                                </div>
+                            );
+                        })}
                     </div>
                     <div className="artwork_container">
-                        {artworks.slice(6, 9).map((artwork, index) => (
-                            <div className="art_card" key={artwork?.id || index + 6}>
-                                <img
-                                    className="titleImgContainer"
-                                    src={artwork?.image || "/media/imgplaceholder.jpg"}
-                                    alt={artwork?.title || `Art ${index + 7}`}
-                                />
-
-                                <button onClick={() => handleFavorite(artwork)}>
-                                    ❤︎
-                                </button>
-                            </div>
-                        ))}
+                        {artworks.slice(3, 6).map((artwork, index) => {
+                            const displayTitle = artwork?.title && artwork.title.length > 27 
+                                ? artwork.title.substring(0, 27) + '...' 
+                                : artwork?.title || "Title";
+                            return (
+                                <div className="art_card" key={artwork?.id || index + 3}>
+                                    <img
+                                        className="titleImgContainer"
+                                        src={artwork?.image || "/media/imgplaceholder.jpg"}
+                                        alt={artwork?.title || `Art ${index + 4}`}
+                                    />
+                                    <p className="art_title" title={artwork?.title || "Title"}>
+                                        {displayTitle}
+                                    </p>
+                                    <button onClick={() => handleFavorite(artwork)}>
+                                        ❤︎
+                                    </button>
+                                </div>
+                            );
+                        })}
                     </div>
-                    <div className="art_title_container">
-                        {artworks.slice(6, 9).map((artwork, index) => (
-                            <h2 key={artwork?.id || index + 6} className="art_title">
-                                {artwork?.title || "Title"}
-                            </h2>
-                        ))}
+                    <div className="artwork_container">
+                        {artworks.slice(6, 9).map((artwork, index) => {
+                            const displayTitle = artwork?.title && artwork.title.length > 27 
+                                ? artwork.title.substring(0, 27) + '...' 
+                                : artwork?.title || "Title";
+                            return (
+                                <div className="art_card" key={artwork?.id || index + 6}>
+                                    <img
+                                        className="titleImgContainer"
+                                        src={artwork?.image || "/media/imgplaceholder.jpg"}
+                                        alt={artwork?.title || `Art ${index + 7}`}
+                                    />
+                                    <p className="art_title" title={artwork?.title || "Title"}>
+                                        {displayTitle}
+                                    </p>
+                                    <button onClick={() => handleFavorite(artwork)}>
+                                        ❤︎
+                                    </button>
+                                </div>
+                            );
+                        })}
                     </div>
                 </>
             )}
