@@ -44,28 +44,31 @@ function Collection({ user }) {
                 <h1>Collection</h1>
                 <Nav />
             </div>
-            <section id="profileSection">
-                <div id="profPicContainer">
-                    <img src="/media/profileplaceholder.jpg" alt="Profile" />
-                </div>
-                <div id="profBio">
-                    <textarea
-                        value={bio}
-                        onChange={(e) => setBio(e.target.value)}
-                    />
-                    <button onClick={saveBio}>Save Bio</button>
-                </div>
-            </section>
+            <div id="collectionWrapper">
+                <section id="profileSection">
+                    <div id="profPicContainer">
+                        <img src="/media/profileplaceholder.jpg" alt="Profile" />
+                    </div>
+                    <div id="profBio">
+                        <h2>Bio</h2>
+                        <textarea
+                            value={bio}
+                            onChange={(e) => setBio(e.target.value)}
+                        />
+                        <button onClick={saveBio}>Save Bio</button>
+                    </div>
+                </section>
 
-            <div>
-                {favorites.map((item) => (
-                    <img
-                        key={item.id}
-                        src={item.image_url}
-                        alt={item.title}
-                        title={`${item.title} (${item.source})`}
-                    />
-                ))}
+                <section id="favoritesSection">
+                    {favorites.map((item) => (
+                        <img
+                            key={item.id}
+                            src={item.image_url}
+                            alt={item.title}
+                            title={`${item.title} (${item.source})`}
+                        />
+                    ))}
+                </section>
             </div>
         </div>
     );
