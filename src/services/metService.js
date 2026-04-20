@@ -6,7 +6,7 @@ export async function getRandomMetGallery(query = "art", limit = 9) {
     if (!ids?.length) return [];
 
     const shuffled = ids
-        .slice(0, 80)
+        .slice(0, 160)
         .sort(() => Math.random() - 0.5)
         .slice(0, limit * 3);
 

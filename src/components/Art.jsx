@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import Nav from "./Nav";
 import { getRandomMetGallery } from "../services/metService";
-import { addFavorite } from "../supabase/favorites";
+import { toggleFavorite, getFavorites } from "../supabase/favorites";
 
 function Art({ user }) {
     const [artworks, setArtworks] = useState([]);
+    const [likedIds, setLikedIds] = useState(new Set());
 
     useEffect(() => {
         async function loadArtworks() {
@@ -19,18 +20,46 @@ function Art({ user }) {
         loadArtworks();
     }, []);
 
-    function handleFavorite(artwork) {
+    useEffect(() => {
+        async function loadFavorites() {
+            if (!user) return;
+            try {
+                const favorites = await getFavorites();
+                const ids = new Set(favorites.map(fav => fav.item_id));
+                setLikedIds(ids);
+            } catch (error) {
+                console.error("Error loading favorites:", error);
+            }
+        }
+
+        loadFavorites();
+    }, [user]);
+
+    async function handleFavorite(artwork) {
         if (!user) {
             alert("Please log in to favorite items!");
             return;
         }
 
-        addFavorite({
-            id: artwork.id,
-            title: artwork.title,
-            image: artwork.image,
-            source: "art",
-        });
+        try {
+            await toggleFavorite({
+                id: artwork.id,
+                title: artwork.title,
+                image: artwork.image,
+                source: "art",
+            });
+
+            // Update local state
+            const newLikedIds = new Set(likedIds);
+            if (newLikedIds.has(artwork.id)) {
+                newLikedIds.delete(artwork.id);
+            } else {
+                newLikedIds.add(artwork.id);
+            }
+            setLikedIds(newLikedIds);
+        } catch (error) {
+            console.error("Error toggling favorite:", error);
+        }
     }
 
     return (
@@ -51,6 +80,7 @@ function Art({ user }) {
                             const displayTitle = artwork?.title && artwork.title.length > 27 
                                 ? artwork.title.substring(0, 27) + '...' 
                                 : artwork?.title || "Title";
+                            const isLiked = likedIds.has(artwork?.id);
                             return (
                                 <div className="art_card" key={artwork?.id || index}>
                                     <img
@@ -61,7 +91,10 @@ function Art({ user }) {
                                     <p className="art_title" title={artwork?.title || "Title"}>
                                         {displayTitle}
                                     </p>
-                                    <button onClick={() => handleFavorite(artwork)}>
+                                    <button 
+                                        className={`favorite-btn ${isLiked ? 'liked' : ''}`}
+                                        onClick={() => handleFavorite(artwork)}
+                                    >
                                         ❤︎
                                     </button>
                                 </div>
@@ -73,6 +106,7 @@ function Art({ user }) {
                             const displayTitle = artwork?.title && artwork.title.length > 27 
                                 ? artwork.title.substring(0, 27) + '...' 
                                 : artwork?.title || "Title";
+                            const isLiked = likedIds.has(artwork?.id);
                             return (
                                 <div className="art_card" key={artwork?.id || index + 3}>
                                     <img
@@ -83,7 +117,10 @@ function Art({ user }) {
                                     <p className="art_title" title={artwork?.title || "Title"}>
                                         {displayTitle}
                                     </p>
-                                    <button onClick={() => handleFavorite(artwork)}>
+                                    <button 
+                                        className={`favorite-btn ${isLiked ? 'liked' : ''}`}
+                                        onClick={() => handleFavorite(artwork)}
+                                    >
                                         ❤︎
                                     </button>
                                 </div>
@@ -95,6 +132,7 @@ function Art({ user }) {
                             const displayTitle = artwork?.title && artwork.title.length > 27 
                                 ? artwork.title.substring(0, 27) + '...' 
                                 : artwork?.title || "Title";
+                            const isLiked = likedIds.has(artwork?.id);
                             return (
                                 <div className="art_card" key={artwork?.id || index + 6}>
                                     <img
@@ -105,7 +143,10 @@ function Art({ user }) {
                                     <p className="art_title" title={artwork?.title || "Title"}>
                                         {displayTitle}
                                     </p>
-                                    <button onClick={() => handleFavorite(artwork)}>
+                                    <button 
+                                        className={`favorite-btn ${isLiked ? 'liked' : ''}`}
+                                        onClick={() => handleFavorite(artwork)}
+                                    >
                                         ❤︎
                                     </button>
                                 </div>

@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import Nav from "./Nav";
 import { getRandomScienceExhibit } from "../api/scienceAPI";
-import { addFavorite } from "../supabase/favorites";
+import { toggleFavorite, getFavorites } from "../supabase/favorites";
 
 function Science({ user }) {
     const [exhibit, setExhibit] = useState(null);
+    const [isLiked, setIsLiked] = useState(false);
 
     useEffect(() => {
         async function load() {
@@ -19,18 +20,40 @@ function Science({ user }) {
         load();
     }, []);
 
-    function handleFavorite() {
+    useEffect(() => {
+        async function checkIfLiked() {
+            if (!user || !exhibit) return;
+            try {
+                const favorites = await getFavorites();
+                const liked = favorites.some(fav => fav.item_id === exhibit.id);
+                setIsLiked(liked);
+            } catch (error) {
+                console.error("Error checking favorite:", error);
+            }
+        }
+
+        checkIfLiked();
+    }, [user, exhibit]);
+
+    async function handleFavorite() {
         if (!user) {
             alert("Please log in to favorite items");
             return;
         }
 
-        addFavorite({
-            id: exhibit.id,
-            title: exhibit.title,
-            image: exhibit.image,
-            source: "science",
-        });
+        try {
+            await toggleFavorite({
+                id: exhibit.id,
+                title: exhibit.title,
+                image: exhibit.image,
+                source: "science",
+            });
+
+            // Toggle like state
+            setIsLiked(!isLiked);
+        } catch (error) {
+            console.error("Error toggling favorite:", error);
+        }
     }
 
     return (
@@ -50,7 +73,10 @@ function Science({ user }) {
                     }
                     alt="science"
                 />
-                <button onClick={handleFavorite}>
+                <button 
+                    className={`favorite-btn ${isLiked ? 'liked' : ''}`}
+                    onClick={handleFavorite}
+                >
                     ❤︎⁠
                 </button>
 

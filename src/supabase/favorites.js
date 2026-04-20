@@ -32,3 +32,33 @@ export async function removeFavorite(favoriteId) {
         .delete()
         .eq("id", favoriteId);
 }
+
+export async function checkIfFavorited(itemId) {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return null;
+
+    const { data } = await supabase
+        .from("favorites")
+        .select("id")
+        .eq("user_id", user.id)
+        .eq("item_id", itemId)
+        .single();
+
+    return data;
+}
+
+export async function toggleFavorite(item) {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return null;
+
+    // Check if already favorited
+    const existing = await checkIfFavorited(item.id);
+
+    if (existing) {
+        // Remove if exists
+        return removeFavorite(existing.id);
+    } else {
+        // Add if doesn't exist
+        return addFavorite(item);
+    }
+}
