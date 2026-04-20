@@ -60,7 +60,7 @@ function Home({ user }) {
             <hr />
             <div className="aboutSection">
                 <h2>About</h2>
-                <p>Welcome to <strong><i>We need a name plz change</i></strong>. Here, you can curate a personal collection of art from various art and science museums and institutions. Our collections rotate every <strong><i>CHANGE weekly/monthly/daily/every # days whatever</i></strong>. Find and embrace your personal style with us. Collect limited addition art as it cycles through our site, and earn badges for participating in select collections. </p>
+                <p>Welcome to Museum Diva. Here, you can curate a personal collection of art from various art and science museums and institutions. Our collections rotate every page refresh, but it can take some time to load the vast options, so be patient! Find and embrace your personal style with us. Collect limited addition art as it cycles through our site, and earn badges for participating in select collections. </p>
                 <p>Our science department features current and popular science exhibits across multiple institutions. Select installments include interactive displays and hands-on activities. While we can't emulate all in-person interactivity, our team strives to create an engaging and thoughtful environment. Enjoy some online science content and digital games. Our art collection showcases all genres of art, including popular classic artists and new emerging talents.</p>
             </div>
         </div>
