@@ -38,7 +38,7 @@ export async function getRandomScienceExhibit() {
             id: date,
             title: "No Image Available",
             image: "/media/imgplaceholder.jpg",
-            description: "NASA did not return an image for this date.",
+            description: "NASA did not return an image.",
         };
     }
 

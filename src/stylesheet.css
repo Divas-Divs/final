@@ -163,15 +163,16 @@ nav {
 #favoritesSection {
     display: grid;
     grid-auto-flow: column;
-    grid-template-rows: repeat(2, 220px);
+    grid-template-rows: repeat(3, 220px);
     grid-auto-columns: 220px;
     gap: 20px;
     padding: 50px 40px;
     width: 66.67%;
-    max-height: calc(220px * 2 + 20px);
+    max-height: calc(220px * 3 + 40px + 100px);
     overflow-x: auto;
     overflow-y: hidden;
     align-content: start;
+    margin-bottom: 40px;
 }
 
 #favoritesSection img {
