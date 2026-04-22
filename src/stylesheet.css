@@ -125,8 +125,9 @@ nav {
 .titleImgContainer {
     width: 100%;
     height: auto;
-    max-width: 350px;
+    max-width: 100%;
     object-fit: cover;
+    display: block;
 }
 
 #profPicContainer {
@@ -278,13 +279,15 @@ nav {
 
 
 .art_title {
-    font-size: 24px;
-    margin: 5px 0;
+    font-size: 18px;
+    margin: 10px 0;
     text-align: center;
-    max-width: 100%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    width: 100%;
+    line-height: 1.4;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    padding: 0 8px;
 }
 
 .art_title_container {
@@ -293,10 +296,24 @@ nav {
 }
 
 .artwork_container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 40px;
+    columns: 2;
+    column-gap: 30px;
     padding: 20px 40px;
+}
+
+@media (min-width: 769px) {
+    .artwork_container {
+        columns: 3;
+        column-gap: 40px;
+    }
+}
+
+@media (max-width: 768px) {
+    .artwork_container {
+        columns: 2;
+        column-gap: 20px;
+        padding: 20px 20px;
+    }
 }
 
 .art_card {
@@ -305,19 +322,26 @@ nav {
     align-items: center;
     gap: 10px;
     padding-bottom: 20px;
+    break-inside: avoid;
+    page-break-inside: avoid;
+    width: 100%;
 }
 
 .science_section {
     display: flex;
     gap: 50px;
-    align-items: flex-start;
+    align-items: center;
+    padding: 40px;
+    flex-wrap: wrap;
 }
 
 .scienceImg {
     width: 100%;
-    max-width: 855px;
-    height: 370px;
-    object-fit: cover;
+    max-width: 600px;
+    height: auto;
+    min-height: 300px;
+    object-fit: contain;
+    flex: 1 1 300px;
 }
 
 .science_text {
@@ -325,7 +349,7 @@ nav {
     flex-direction: column;
     width: 100%;
     max-width: 400px;
-    padding-right: 20px;
+    flex: 1 1 300px;
 }
 
 .science_text h1 {
