@@ -35,18 +35,25 @@ function Home({ user }) {
                 const gap = 80;
                 const scrollWidth = itemWidth + gap;
                 const containerWidth = carousel.offsetWidth;
-                const maxScroll = carousel.scrollWidth - containerWidth;
 
-                let newScrollPosition = carousel.scrollLeft + 50;
+                // Calculate position for next image
+                let newScrollPosition = carousel.scrollLeft + scrollWidth;
+                
+                // If we've scrolled past the "real" items, reset to start
+                const maxScroll = featured.length * scrollWidth;
                 if (newScrollPosition >= maxScroll) {
-                    newScrollPosition = 0;
+                    // Instantly reset scroll without animation
+                    carousel.style.scrollBehavior = "auto";
+                    carousel.scrollLeft = 0;
+                    carousel.style.scrollBehavior = "smooth";
+                    newScrollPosition = scrollWidth;
+                    setCurrentIndex(1 % featured.length);
+                } else {
+                    carousel.scrollLeft = newScrollPosition;
+                    // Calculate which image is in the center
+                    const imageIndex = Math.round(newScrollPosition / scrollWidth);
+                    setCurrentIndex(imageIndex % featured.length);
                 }
-                carousel.scrollLeft = newScrollPosition;
-
-                // Calculate which image is in the center
-                const centerX = carousel.scrollLeft + containerWidth / 2;
-                const centerImageIndex = Math.round((centerX - containerWidth / 2) / scrollWidth);
-                setCurrentIndex(Math.max(0, Math.min(centerImageIndex, featured.length - 1)));
             }
         }, 3000);
 
@@ -73,15 +80,27 @@ function Home({ user }) {
                             </div>
                         </div>
                     ) : featured && featured.length > 0 ? (
-                        featured.map((item) => (
-                            <img
-                                key={item.id}
-                                className="titleImgContainer"
-                                src={item.image}
-                                alt={item.title}
-                                title={item.title}
-                            />
-                        ))
+                        <>
+                            {featured.map((item) => (
+                                <img
+                                    key={item.id}
+                                    className="titleImgContainer"
+                                    src={item.image}
+                                    alt={item.title}
+                                    title={item.title}
+                                />
+                            ))}
+                            {/* Duplicate items for infinite scroll effect */}
+                            {featured.map((item) => (
+                                <img
+                                    key={`${item.id}-duplicate`}
+                                    className="titleImgContainer"
+                                    src={item.image}
+                                    alt={item.title}
+                                    title={item.title}
+                                />
+                            ))}
+                        </>
                     ) : (
                         <p>No Artwork Was Found.</p>
                     )}
