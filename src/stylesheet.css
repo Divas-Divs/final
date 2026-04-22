@@ -287,6 +287,40 @@ nav {
     overflow-x: auto;
     overflow-y: hidden;
     flex: 1;
+    padding-bottom: 40px;
+    scroll-behavior: smooth;
+    scrollbar-width: none; /* Hide scrollbar for Firefox */
+}
+
+/* Hide scrollbar for Chrome, Edge, Safari */
+#slideCarousel::-webkit-scrollbar {
+    display: none;
+}
+
+.carousel-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.carousel-indicators {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    padding: 20px 0;
+}
+
+.indicator-dot {
+    width: 10px;
+    height: 2px;
+    background-color: #676481;
+    border-radius: 1px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.indicator-dot.active {
+    background-color: #D9D9D9;
+    width: 20px;
 }
 
 /* Favorite button styles */

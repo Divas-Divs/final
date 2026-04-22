@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Nav from "./Nav";
 import { getNewestMetGallery } from "../services/metService";
 
 function Home({ user }) {
     const [featured, setFeatured] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const carouselRef = useRef(null);
 
     useEffect(() => {
         async function loadCarousel() {
@@ -24,6 +26,33 @@ function Home({ user }) {
         loadCarousel();
     }, []);
 
+    // Auto-scroll carousel
+    useEffect(() => {
+        const interval = setInterval(() => {
+            if (carouselRef.current && featured && featured.length > 0) {
+                const carousel = carouselRef.current;
+                const itemWidth = carousel.querySelector(".titleImgContainer")?.offsetWidth || 0;
+                const gap = 80;
+                const scrollWidth = itemWidth + gap;
+                const containerWidth = carousel.offsetWidth;
+                const maxScroll = carousel.scrollWidth - containerWidth;
+
+                let newScrollPosition = carousel.scrollLeft + 50;
+                if (newScrollPosition >= maxScroll) {
+                    newScrollPosition = 0;
+                }
+                carousel.scrollLeft = newScrollPosition;
+
+                // Calculate which image is in the center
+                const centerX = carousel.scrollLeft + containerWidth / 2;
+                const centerImageIndex = Math.round((centerX - containerWidth / 2) / scrollWidth);
+                setCurrentIndex(Math.max(0, Math.min(centerImageIndex, featured.length - 1)));
+            }
+        }, 3000);
+
+        return () => clearInterval(interval);
+    }, [featured]);
+
     return (
         <div>
             <div className="page-header">
@@ -32,28 +61,42 @@ function Home({ user }) {
             </div>
             <hr />
 
-            <div id="slideCarousel">
-                {loading ? (
-                    <div>
-                        <p>Loading featured artworks...</p>
+            <div className="carousel-container">
+                <div id="slideCarousel" ref={carouselRef}>
+                    {loading ? (
                         <div>
-                            {Array.from({ length: 6 }).map((_, i) => (
-                                <div key={i}>Loading...</div>
-                            ))}
+                            <p>Loading featured artworks...</p>
+                            <div>
+                                {Array.from({ length: 6 }).map((_, i) => (
+                                    <div key={i}>Loading...</div>
+                                ))}
+                            </div>
                         </div>
+                    ) : featured && featured.length > 0 ? (
+                        featured.map((item) => (
+                            <img
+                                key={item.id}
+                                className="titleImgContainer"
+                                src={item.image}
+                                alt={item.title}
+                                title={item.title}
+                            />
+                        ))
+                    ) : (
+                        <p>No Artwork Was Found.</p>
+                    )}
+                </div>
+
+                {/* Custom Indicator Dots */}
+                {featured && featured.length > 0 && (
+                    <div className="carousel-indicators">
+                        {featured.map((_, index) => (
+                            <div
+                                key={index}
+                                className={`indicator-dot ${index === currentIndex ? "active" : ""}`}
+                            />
+                        ))}
                     </div>
-                ) : featured && featured.length > 0 ? (
-                    featured.map((item) => (
-                        <img
-                            key={item.id}
-                            className="titleImgContainer"
-                            src={item.image}
-                            alt={item.title}
-                            title={item.title}
-                        />
-                    ))
-                ) : (
-                    <p>No artworks found.</p>
                 )}
             </div>
 
