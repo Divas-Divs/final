@@ -5,10 +5,10 @@ import { getProfile, updateProfile } from "../supabase/profile";
 
 function Collection({ user }) {
     const [favorites, setFavorites] = useState([]);
-
     const [profile, setProfile] = useState(null);
-
     const [bio, setBio] = useState("");
+    const [isEditing, setIsEditing] = useState(false);
+    const [originalBio, setOriginalBio] = useState("");
 
     useEffect(() => {
         if (!user) return;
@@ -18,6 +18,7 @@ function Collection({ user }) {
         getProfile(user.id).then((data) => {
             setProfile(data);
             setBio(data?.bio || "");
+            setOriginalBio(data?.bio || "");
         });
     }, [user]);
 
@@ -35,7 +36,18 @@ function Collection({ user }) {
 
     async function saveBio() {
         await updateProfile(user.id, { bio });
+        setOriginalBio(bio);
+        setIsEditing(false);
         alert("Updated!");
+    }
+
+    function cancelEdit() {
+        setBio(originalBio);
+        setIsEditing(false);
+    }
+
+    function startEdit() {
+        setIsEditing(true);
     }
 
     return (
@@ -51,11 +63,29 @@ function Collection({ user }) {
                     </div>
                     <div id="profBio">
                         <h2>Bio</h2>
-                        <textarea
-                            value={bio}
-                            onChange={(e) => setBio(e.target.value)}
-                        />
-                        <button onClick={saveBio}>Save Bio</button>
+                        {isEditing ? (
+                            <>
+                                <textarea
+                                    value={bio}
+                                    onChange={(e) => setBio(e.target.value)}
+                                />
+                                <div className="bio-buttons">
+                                    <button onClick={saveBio} className="save-btn">
+                                        Save
+                                    </button>
+                                    <button onClick={cancelEdit} className="cancel-btn">
+                                        Cancel
+                                    </button>
+                                </div>
+                            </>
+                        ) : (
+                            <>
+                                <p className="bio-text">{bio || "No bio yet."}</p>
+                                <button onClick={startEdit} className="edit-btn">
+                                    Edit
+                                </button>
+                            </>
+                        )}
                     </div>
                 </section>
 
