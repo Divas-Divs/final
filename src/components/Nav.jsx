@@ -39,17 +39,15 @@ function Nav() {
     }
 
     return (
-        <>
-            <nav>
-                <Link to="/">Home</Link>
-                <Link to="/art">Art</Link>
-                <Link to="/science">Science</Link>
-                <Link to="/collection">Collection</Link>
+        <nav>
+            <Link to="/">Home</Link>
+            <Link to="/art">Art</Link>
+            <Link to="/science">Science</Link>
+            <Link to="/collection">Collection</Link>
 
-                <button onClick={() => setOpen(!open)}>
-                    {open ? "Close" : "Login"}
-                </button>
-            </nav>
+            <button onClick={() => setOpen(!open)}>
+                {open ? "Close" : "Login"}
+            </button>
 
             {open && (
                 <div className="auth-dropdown">
@@ -84,7 +82,7 @@ function Nav() {
                     </button>
                 </div>
             )}
-        </>
+        </nav>
     );
 }
 
