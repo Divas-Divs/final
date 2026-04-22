@@ -46,6 +46,7 @@ body {
 p {
     color: #D9D9D9;
     text-align: left;
+    text-indent: 35px;
     font-size: 18px;
     line-height: 1.7;
     font-family: 'Lateef', var(--sans);
