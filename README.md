@@ -1,5 +1,7 @@
 # final
 
+https://museumdivas.netlify.app/collection
+
 ## Media Folder
 
 Put pics/vids in the media folder to help organization
