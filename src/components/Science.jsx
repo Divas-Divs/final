@@ -60,7 +60,7 @@ function Science({ user }) {
         <div>
             <div className="page-header">
                 <h1>Science</h1>
-                <Nav />
+                <Nav user={user} />
             </div>
             <hr />
 

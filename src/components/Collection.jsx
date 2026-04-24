@@ -27,9 +27,9 @@ function Collection({ user }) {
             <div>
                 <div className="page-header">
                     <h1>Collection</h1>
-                    <Nav />
+                    <Nav user={user} />
                 </div>
-                <p>Please log in to view your collection.</p>
+                <p>Please log in to save images to your collection.</p>
             </div>
         );
     }
@@ -54,7 +54,7 @@ function Collection({ user }) {
         <div>
             <div className="page-header">
                 <h1>Collection</h1>
-                <Nav />
+                <Nav user={user} />
             </div>
             <div id="collectionWrapper">
                 <section id="profileSection">

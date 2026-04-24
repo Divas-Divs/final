@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { signIn, signUp, signOut } from "../supabase/auth";
 
-function Nav() {
+function Nav({ user }) {
     const [open, setOpen] = useState(false);
     const [mode, setMode] = useState("login");
 
@@ -38,6 +38,15 @@ function Nav() {
         }
     }
 
+    async function handleSignOut() {
+        try {
+            await signOut();
+        } catch (err) {
+            alert(err.message);
+            console.error(err);
+        }
+    }
+
     return (
         <nav>
             <Link to="/">Home</Link>
@@ -45,9 +54,16 @@ function Nav() {
             <Link to="/science">Science</Link>
             <Link to="/collection">Collection</Link>
 
-            <button onClick={() => setOpen(!open)}>
-                {open ? "Close" : "Login"}
-            </button>
+            {user ? (
+                <div className="user-menu">
+                    <span>Welcome, {user.email}</span>
+                    <button onClick={handleSignOut}>Logout</button>
+                </div>
+            ) : (
+                <button onClick={() => setOpen(!open)}>
+                    {open ? "Close" : "Login"}
+                </button>
+            )}
 
             {open && (
                 <div className="auth-dropdown">

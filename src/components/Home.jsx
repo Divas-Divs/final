@@ -64,7 +64,7 @@ function Home({ user }) {
         <div>
             <div className="page-header">
                 <h1>New Additions</h1>
-                <Nav />
+                <Nav user={user} />
             </div>
             <hr />
 

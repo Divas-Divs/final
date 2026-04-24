@@ -66,7 +66,7 @@ function Art({ user }) {
         <div>
             <div className="page-header">
                 <h1>Art</h1>
-                <Nav />
+                <Nav user={user} />
             </div>
             <hr />
             {artworks.length === 0 ? (
