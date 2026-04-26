@@ -1,6 +1,6 @@
 # final
 
-https://museumdivas.netlify.app/collection
+https://museumdivas.netlify.app
 
 ## Media Folder
 
